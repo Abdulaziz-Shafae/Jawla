@@ -238,3 +238,8 @@ Set `GEOAPIFY_API_KEY` on the Railway **Backend** service. After OpenAI screensh
 ### Store image discovery
 
 `POST /api/store-images/find` accepts `{ "websiteUrl": "https://official-store.example", "instagramUrl": "https://www.instagram.com/example/" }` with `X-Member-Token`. Jawlh tries public `og:image` metadata from the supplied official website, then the public Instagram profile. Instagram often blocks public metadata and images may prohibit hotlinking, so extraction is best-effort and members should confirm the preview. The website URL is optional and can be saved with the store. No new API key is required. Fetch only public HTTPS pages; production-grade URL fetching should additionally use network egress restrictions to defend against DNS rebinding.
+
+
+### Uploaded store image
+
+A store image can now be selected from the device in the store form (PNG, JPEG, WebP, max 3 MB). The frontend first saves the store, then uploads the chosen file to `POST /api/stores/{storeId}/image` using `multipart/form-data` and `X-Member-Token`. Bytes are stored in a separate MySQL `store_image` table so they survive Railway redeploys. `GET /api/stores/{storeId}/image` serves the image for store cards; `DELETE /api/stores/{storeId}/image` removes it. No external image URL is required. The Instagram screenshot used for OpenAI analysis is distinct and is not automatically saved as the store photo. **Privacy:** image GET is currently publicly accessible to anyone who has the image URL; add proper group access control before using private photos.
