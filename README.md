@@ -131,10 +131,8 @@ npm run dev
 
 Open **http://localhost:5173**. The frontend uses `VITE_API_URL` when provided; otherwise it defaults to `http://localhost:8080`.
 
-**Frontend:** https://jawlh.up.railway.app
-
 **Frontend:** https://jawlh.up.railway.app  
-**Backend:** Update this URL after configuring the new Railway backend domain.
+**Backend:** https://jawlh-back-production.up.railway.app
 
 ## ☁️ Deployment on Railway | النشر على Railway
 
@@ -162,7 +160,7 @@ Set the values using Railway's actual MySQL connection variables and service ref
 **Frontend variable**
 
 ```env
-VITE_API_URL=https://<NEW_BACKEND_DOMAIN>
+VITE_API_URL=https://jawlh-back-production.up.railway.app
 ```
 
 Since Vite embeds `VITE_API_URL` at build time, the frontend must be **rebuilt/redeployed** after setting or changing this variable. Generate a public domain for both application services. The MySQL service does not require a public domain.
