@@ -48,7 +48,7 @@ The intended workflow is:
 4. Review, correct, and complete any missing information.
 5. Save the store.
 
-> ⚠️ **Not implemented yet:** Screenshot upload and AI extraction are part of the roadmap, not active features. Instagram data is **not** automatically scraped. Automatic Google Maps URL coordinate extraction is also not implemented; the manual map picker is available.
+> ⚠️ **Implemented:** Screenshot analysis via OpenAI Responses API. Upload a PNG/JPEG/WEBP profile screenshot in the store form and review proposed fields before saving. Instagram data is **not** automatically scraped. Automatic Google Maps URL coordinate extraction is also not implemented; the manual map picker is available.
 
 ## 🧱 Tech Stack | التقنيات
 
@@ -198,7 +198,7 @@ Since Vite embeds `VITE_API_URL` at build time, the frontend must be **rebuilt/r
 
 **Next steps:** 
 
-- [ ] Add screenshot upload and AI-based information extraction
+- [x] Add screenshot upload and AI-based information extraction (requires OPENAI_API_KEY)
 - [ ] Parse supported Google Maps links into coordinates
 - [ ] Add proper private-group access protection
 - [ ] Refactor backend into dedicated Controller / Service / DTO / Advice layers
@@ -218,3 +218,8 @@ Made with ☕ for furniture-shopping adventures.
 </div>
 
 > The GitHub repository is still named `jawlh`. Application branding is `jawlh`.
+
+
+### OpenAI screenshot analysis
+
+Backend Railway variable: `OPENAI_API_KEY` (secret). Optional: `OPENAI_MODEL=gpt-4.1-mini`. Keep the key out of frontend variables and source code. Analysis endpoint: `POST /api/ai/instagram/analyze` using `multipart/form-data` fields `instagramUrl` and `image`, and header `X-Member-Token`. Images are analyzed only; they are not stored as store photos. API usage may incur costs. The current group access mechanism is not secure, so add authentication and rate limiting before sharing broadly.
