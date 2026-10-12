@@ -243,3 +243,8 @@ Set `GEOAPIFY_API_KEY` on the Railway **Backend** service. After OpenAI screensh
 ### Uploaded store image
 
 A store image can now be selected from the device in the store form (PNG, JPEG, WebP, max 3 MB). The frontend first saves the store, then uploads the chosen file to `POST /api/stores/{storeId}/image` using `multipart/form-data` and `X-Member-Token`. Bytes are stored in a separate MySQL `store_image` table so they survive Railway redeploys. `GET /api/stores/{storeId}/image` serves the image for store cards; `DELETE /api/stores/{storeId}/image` removes it. No external image URL is required. The Instagram screenshot used for OpenAI analysis is distinct and is not automatically saved as the store photo. **Privacy:** image GET is currently publicly accessible to anyone who has the image URL; add proper group access control before using private photos.
+
+
+### Google Maps long-link schema fix
+
+The `store.maps_url` column is mapped as `TEXT`. During startup, `DatabaseMigrationConfig` checks the existing MySQL column and widens older `VARCHAR` schemas to `TEXT` without deleting existing store records. This addresses MySQL error 1406 on long Google Maps links. Check Backend Deploy Logs and retry saving a store after deploying.

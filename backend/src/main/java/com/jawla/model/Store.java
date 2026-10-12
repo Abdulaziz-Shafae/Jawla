@@ -5,7 +5,7 @@ import java.time.Instant;
  @Id @GeneratedValue(strategy=GenerationType.IDENTITY) public Long id;
  @Column(nullable=false,length=150) public String name;
  @Column(length=500) public String instagramUrl;
- @Column(length=500) public String mapsUrl;
+ @Column(columnDefinition="TEXT") public String mapsUrl;
  @Column(length=500) public String imageUrl;
  @Column(length=500) public String websiteUrl;
  @Column(length=150) public String city;
