@@ -11,7 +11,7 @@ const statusNames={UNVISITED:"لم تتم الزيارة",VISITED:"تمت الز
 const categories=["كنب","طاولات","غرف نوم","إضاءة","ديكور","أثاث خارجي","سجاد","تفصيل"];
 function MapClick({pick}){useMapEvents({click:e=>pick(e.latlng)});return null}
 function App(){
- const[member,setMember]=useState(()=>{try{return JSON.parse(localStorage.getItem("jawlh-member")||localStorage.getItem("jawla-member")||"null")}catch{return null}});
+ const[member,setMember]=useState(()=>{try{return JSON.parse(localStorage.getItem("jawlh-member")||localStorage.getItem("jawlh-member")||localStorage.getItem("jawla-member")||"null")}catch{return null}});
  const[name,setName]=useState("");const[stores,setStores]=useState([]);const[page,setPage]=useState("cards");const[filter,setFilter]=useState("ALL");const[search,setSearch]=useState("");const[editing,setEditing]=useState(null);const[form,setForm]=useState(blank);const[selected,setSelected]=useState(null);const[review,setReview]=useState({stars:5,note:""});const[showMapPicker,setShowMapPicker]=useState(false);const[error,setError]=useState("");const[busy,setBusy]=useState(false);
  async function request(path,options={}){const response=await fetch(API+"/api"+path,{...options,headers:{"Content-Type":"application/json",...(member?{"X-Member-Token":member.token}:{}),...options.headers}});const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.message||"تعذر تنفيذ الطلب");return data}
  async function refresh(target=page){if(!member)return;try{setStores(await request(target==="trash"?"/stores/trash":"/stores"));setError("")}catch(e){setError(e.message)}}

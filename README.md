@@ -94,7 +94,7 @@ jawlh/
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/Abdulaziz-Shafae/Jawla.git
+git clone https://github.com/Abdulaziz-Shafae/jawlh.git
 cd Jawla
 ```
 
@@ -133,6 +133,9 @@ Open **http://localhost:5173**. The frontend uses `VITE_API_URL` when provided; 
 
 **Frontend:** https://jawlh.up.railway.app
 
+**Frontend:** https://jawlh.up.railway.app  
+**Backend:** Update this URL after configuring the new Railway backend domain.
+
 ## ☁️ Deployment on Railway | النشر على Railway
 
 Create **three services** in a single Railway project:
@@ -151,7 +154,7 @@ Both application directories include their own Dockerfiles.
 DATABASE_URL=jdbc:mysql://<MYSQL_PRIVATE_HOST>:3306/<MYSQL_DATABASE>
 DB_USER=<MYSQL_USER>
 DB_PASSWORD=<MYSQL_PASSWORD>
-FRONTEND_ORIGIN=https://<YOUR_FRONTEND_DOMAIN>
+FRONTEND_ORIGIN=https://jawlh.up.railway.app
 ```
 
 Set the values using Railway's actual MySQL connection variables and service references, rather than copying the placeholders literally.
@@ -159,7 +162,7 @@ Set the values using Railway's actual MySQL connection variables and service ref
 **Frontend variable**
 
 ```env
-VITE_API_URL=https://<YOUR_BACKEND_DOMAIN>
+VITE_API_URL=https://<NEW_BACKEND_DOMAIN>
 ```
 
 Since Vite embeds `VITE_API_URL` at build time, the frontend must be **rebuilt/redeployed** after setting or changing this variable. Generate a public domain for both application services. The MySQL service does not require a public domain.
@@ -216,4 +219,4 @@ Made with ☕ for furniture-shopping adventures.
 
 </div>
 
-> The GitHub repository is still named `Jawla`. Application branding is `jawlh`.
+> The GitHub repository is still named `jawlh`. Application branding is `jawlh`.
