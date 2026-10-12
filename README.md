@@ -233,3 +233,8 @@ Use `POST /api/maps/resolve` with JSON `{ "mapsUrl": "https://maps.app.goo.gl/..
 ### Geoapify store lookup
 
 Set `GEOAPIFY_API_KEY` on the Railway **Backend** service. After OpenAI screenshot analysis, Jawlh searches Geoapify using the extracted store name and city. `POST /api/locations/search` accepts JSON `{"name":"SARAY HOME","city":"Riyadh"}` with `X-Member-Token`. The API returns possible named locations **only**, never automatically saves a pin. Select the actual branch, or use the Google Maps URL/manual pin if no accurate candidate appears. Geocoding is not a guaranteed full POI directory, so some stores won't be found. Do not put the key in frontend variables or GitHub.
+
+
+### Store image discovery
+
+`POST /api/store-images/find` accepts `{ "websiteUrl": "https://official-store.example", "instagramUrl": "https://www.instagram.com/example/" }` with `X-Member-Token`. Jawlh tries public `og:image` metadata from the supplied official website, then the public Instagram profile. Instagram often blocks public metadata and images may prohibit hotlinking, so extraction is best-effort and members should confirm the preview. The website URL is optional and can be saved with the store. No new API key is required. Fetch only public HTTPS pages; production-grade URL fetching should additionally use network egress restrictions to defend against DNS rebinding.

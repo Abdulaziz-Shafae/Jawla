@@ -7,6 +7,7 @@ import java.time.Instant;
  @Column(length=500) public String instagramUrl;
  @Column(length=500) public String mapsUrl;
  @Column(length=500) public String imageUrl;
+ @Column(length=500) public String websiteUrl;
  @Column(length=150) public String city;
  @Column(length=500) public String categories;
  public Double latitude;
