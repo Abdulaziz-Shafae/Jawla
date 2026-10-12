@@ -48,7 +48,7 @@ The intended workflow is:
 4. Review, correct, and complete any missing information.
 5. Save the store.
 
-> ⚠️ **Implemented:** Screenshot analysis via OpenAI Responses API. Upload a PNG/JPEG/WEBP profile screenshot in the store form and review proposed fields before saving. Instagram data is **not** automatically scraped. Automatic Google Maps URL coordinate extraction is also not implemented; the manual map picker is available.
+> ⚠️ **Implemented:** Screenshot analysis via OpenAI Responses API. Upload a PNG/JPEG/WEBP profile screenshot in the store form and review proposed fields before saving. Instagram data is **not** automatically scraped. Google Maps URL parsing is available for supported coordinate-based URLs and some shortened share links, with manual map selection as fallback.
 
 ## 🧱 Tech Stack | التقنيات
 
@@ -199,7 +199,7 @@ Since Vite embeds `VITE_API_URL` at build time, the frontend must be **rebuilt/r
 **Next steps:** 
 
 - [x] Add screenshot upload and AI-based information extraction (requires OPENAI_API_KEY)
-- [ ] Parse supported Google Maps links into coordinates
+- [x] Parse supported Google Maps links into coordinates (manual fallback for unresolved links)
 - [ ] Add proper private-group access protection
 - [ ] Refactor backend into dedicated Controller / Service / DTO / Advice layers
 - [ ] Improve validation, test coverage, error handling, and deployment readiness
@@ -223,3 +223,8 @@ Made with ☕ for furniture-shopping adventures.
 ### OpenAI screenshot analysis
 
 Backend Railway variable: `OPENAI_API_KEY` (secret). Optional: `OPENAI_MODEL=gpt-4.1-mini`. Keep the key out of frontend variables and source code. Analysis endpoint: `POST /api/ai/instagram/analyze` using `multipart/form-data` fields `instagramUrl` and `image`, and header `X-Member-Token`. Images are analyzed only; they are not stored as store photos. API usage may incur costs. The current group access mechanism is not secure, so add authentication and rate limiting before sharing broadly.
+
+
+### Google Maps URL integration
+
+Use `POST /api/maps/resolve` with JSON `{ "mapsUrl": "https://maps.app.goo.gl/..." }` and member header `X-Member-Token`. The backend extracts coordinates from known Google Maps URL patterns, following a limited number of redirects **only on allowlisted HTTPS Google domains**. Some links contain only a place ID or name; these cannot be mapped reliably without geocoding, so members should place a pin manually. No Google Maps API key is needed for this parser; JAWLH renders its interactive maps with Leaflet/OpenStreetMap.
