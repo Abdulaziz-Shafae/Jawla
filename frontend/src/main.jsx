@@ -11,13 +11,13 @@ const statusNames={UNVISITED:"لم تتم الزيارة",VISITED:"تمت الز
 const categories=["كنب","طاولات","غرف نوم","إضاءة","ديكور","أثاث خارجي","سجاد","تفصيل"];
 function MapClick({pick}){useMapEvents({click:e=>pick(e.latlng)});return null}
 function App(){
- const[member,setMember]=useState(()=>{try{return JSON.parse(localStorage.getItem("jawla-member")||"null")}catch{return null}});
+ const[member,setMember]=useState(()=>{try{return JSON.parse(localStorage.getItem("jawlh-member")||localStorage.getItem("jawla-member")||"null")}catch{return null}});
  const[name,setName]=useState("");const[stores,setStores]=useState([]);const[page,setPage]=useState("cards");const[filter,setFilter]=useState("ALL");const[search,setSearch]=useState("");const[editing,setEditing]=useState(null);const[form,setForm]=useState(blank);const[selected,setSelected]=useState(null);const[review,setReview]=useState({stars:5,note:""});const[showMapPicker,setShowMapPicker]=useState(false);const[error,setError]=useState("");const[busy,setBusy]=useState(false);
  async function request(path,options={}){const response=await fetch(API+"/api"+path,{...options,headers:{"Content-Type":"application/json",...(member?{"X-Member-Token":member.token}:{}),...options.headers}});const data=await response.json().catch(()=>({}));if(!response.ok)throw Error(data.message||"تعذر تنفيذ الطلب");return data}
  async function refresh(target=page){if(!member)return;try{setStores(await request(target==="trash"?"/stores/trash":"/stores"));setError("")}catch(e){setError(e.message)}}
  useEffect(()=>{refresh()},[member,page]);
  async function perform(job){setBusy(true);setError("");try{await job()}catch(e){setError(e.message)}finally{setBusy(false)}}
- async function join(event){event.preventDefault();await perform(async()=>{const account=await request("/members",{method:"POST",body:JSON.stringify({name})});localStorage.setItem("jawla-member",JSON.stringify(account));setMember(account)})}
+ async function join(event){event.preventDefault();await perform(async()=>{const account=await request("/members",{method:"POST",body:JSON.stringify({name})});localStorage.setItem("jawlh-member",JSON.stringify(account));setMember(account)})}
  function openForm(s){setEditing(s?.id||"new");setForm(s?Object.fromEntries(Object.keys(blank).map(k=>[k,s[k]??blank[k]])):{...blank});setShowMapPicker(false)}
  async function save(event){event.preventDefault();await perform(async()=>{await request("/stores"+(editing==="new"?"":"/"+editing),{method:editing==="new"?"POST":"PUT",body:JSON.stringify(form)});setEditing(null);await refresh()})}
  async function changeStatus(value){await perform(async()=>{const data=await request("/stores/"+selected.id+"/status",{method:"PUT",body:JSON.stringify({status:value})});setSelected(data);await refresh()})}
@@ -26,7 +26,7 @@ function App(){
  async function restore(s){await perform(async()=>{await request("/stores/"+s.id+"/restore",{method:"POST"});await refresh("trash")})}
  const visible=stores.filter(s=>(filter==="ALL"||s.status===filter)&&[s.name,s.city,s.categories].some(v=>(v||"").toLowerCase().includes(search.toLowerCase())));
  if(!member)return <main className="login"><form className="panel" onSubmit={join}><div className="mark">⌖</div><h1>جولة</h1><p>كل المحلات، في مكان واحد.</p><label>اسمك في المجموعة</label><input required maxLength={80} placeholder="اكتب اسمك" value={name} onChange={e=>setName(e.target.value)}/><button disabled={busy}>دخول إلى جولة</button>{error&&<p className="error">{error}</p>}<small>سيُحفظ اسمك على هذا الجهاز. الرابط وحده لا يحمي بيانات الموقع.</small></form></main>;
- return <div className="shell"><header><div><h1>جولة <small>JAWLA</small></h1><p>كل المحلات، في مكان واحد.</p></div><span className="member">أهلًا، {member.name}</span></header>
+ return <div className="shell"><header><div><h1>جولة <small>jawlh</small></h1><p>كل المحلات، في مكان واحد.</p></div><span className="member">أهلًا، {member.name}</span></header>
  <nav>{[["cards","المحلات"],["map","الخريطة"],["trash","المحذوفات"]].map(([key,label])=><button key={key} className={page===key?"active":"plain"} onClick={()=>{setPage(key);setFilter("ALL");setSearch("")}}>{label}</button>)}</nav>
  {error&&<p className="error">{error}</p>}
  {page!=="trash"&&<><div className="stats"><div><strong>{stores.length}</strong><span>كل المحلات</span></div><div><strong>{stores.filter(s=>s.status==="UNVISITED").length}</strong><span>لم نزرها</span></div><div><strong>{stores.filter(s=>s.status==="VISITED").length}</strong><span>تمت زيارتها</span></div></div><div className="toolbar"><input placeholder="ابحث عن محل..." value={search} onChange={e=>setSearch(e.target.value)}/><select value={filter} onChange={e=>setFilter(e.target.value)}><option value="ALL">كل الحالات</option>{Object.entries(statusNames).map(([k,v])=><option key={k} value={k}>{v}</option>)}</select><button onClick={()=>openForm(null)}>+ إضافة محل</button></div></>}
