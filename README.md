@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛋️ جولة | JAWLA
+# 🛋️ جولة | jawlh
 
 ### كل المحلات، في مكان واحد.
 **A shared furniture-store discovery, visit planning, and rating app.**
@@ -19,7 +19,7 @@
 
 **جولة** موقع عربي لمجموعة واحدة تخطط لزيارة محلات الأثاث. بدل ما تتوزع أسماء المعارض وروابط إنستقرام ومواقعها بين المحادثات، يجمعها الموقع في مكان واحد، مع خريطة تفاعلية وحالة زيارة مشتركة وتقييمات لكل عضو.
 
-JAWLA helps a small group organize furniture stores they want to visit, explore their locations on a map, track visits together, and share personal ratings.
+jawlh helps a small group organize furniture stores they want to visit, explore their locations on a map, track visits together, and share personal ratings.
 
 ## ✨ Features | المميزات
 
@@ -64,7 +64,7 @@ The intended workflow is:
 ## 📂 Project Structure
 
 ```text
-Jawla/
+jawlh/
 ├── frontend/
 │   ├── src/
 │   │   ├── main.jsx
@@ -75,7 +75,7 @@ Jawla/
 │   └── Dockerfile
 ├── backend/
 │   ├── src/main/java/com/jawla/
-│   │   ├── JawlaApplication.java
+│   │   ├── jawlhApplication.java
 │   │   ├── api/
 │   │   ├── config/
 │   │   ├── model/
@@ -130,6 +130,8 @@ npm run dev
 ```
 
 Open **http://localhost:5173**. The frontend uses `VITE_API_URL` when provided; otherwise it defaults to `http://localhost:8080`.
+
+**Frontend:** https://jawlh.up.railway.app
 
 ## ☁️ Deployment on Railway | النشر على Railway
 
@@ -213,3 +215,5 @@ Made with ☕ for furniture-shopping adventures.
 **جولة — كل المحلات، في مكان واحد.**
 
 </div>
+
+> The GitHub repository is still named `Jawla`. Application branding is `jawlh`.
