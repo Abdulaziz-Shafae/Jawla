@@ -1,62 +1,215 @@
-# جولة | JAWLA
+<div align="center">
 
-موقع عربي خاص بمجموعة واحدة لإدارة زيارات محلات الأثاث وتقييمها.
+# 🛋️ جولة | JAWLA
 
-## التقنية
+### كل المحلات، في مكان واحد.
+**A shared furniture-store discovery, visit planning, and rating app.**
 
-- Frontend: React + Vite + React Leaflet
-- Backend: Java 21 + Spring Boot 3.5.6 + Spring Data JPA
-- Database: MySQL
-- Deployment: Railway (frontend / backend / MySQL)
+[![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white)](https://www.java.com/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://react.dev/)
+[![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Railway](https://img.shields.io/badge/Deploy-Railway-0B0D0E?logo=railway&logoColor=white)](https://railway.com/)
 
-## الميزات الأساسية
+</div>
 
-- دخول بالاسم وحفظ هوية الجهاز محليًا
-- إضافة المحلات وتعديلها
-- عرض المحلات كبطاقات أو خريطة
-- البحث والفلترة، والترتيب من الأحدث إلى الأقدم
-- تغيير حالة الزيارة مع اسم العضو وتاريخ التعديل
-- تقييم مستقل لكل عضو من 1 إلى 5 نجوم وملاحظة اختيارية
-- Soft Delete، سلة محذوفات واسترجاع
-- اختيار إحداثيات المحل يدويًا على خريطة Leaflet
-- حفظ روابط Instagram وGoogle Maps، وصورة برابط إن توفرت
+---
 
-## التشغيل المحلي
+## 💡 About the Project | عن المشروع
 
-يتطلب Java 21 وMaven وNode.js وMySQL.
+**جولة** موقع عربي لمجموعة واحدة تخطط لزيارة محلات الأثاث. بدل ما تتوزع أسماء المعارض وروابط إنستقرام ومواقعها بين المحادثات، يجمعها الموقع في مكان واحد، مع خريطة تفاعلية وحالة زيارة مشتركة وتقييمات لكل عضو.
 
-1. شغّل MySQL، وأنشئ قاعدة باسم `jawla` أو دع إعداد الاتصال ينشئها تلقائيًا.
-2. داخل `backend`: شغّل `mvn spring-boot:run`. المتغيرات: `DATABASE_URL` (JDBC), `DB_USER`, `DB_PASSWORD`, `FRONTEND_ORIGIN`.
-3. داخل `frontend`: شغّل `npm install` ثم `npm run dev`.
-4. افتح `http://localhost:5173`.
+JAWLA helps a small group organize furniture stores they want to visit, explore their locations on a map, track visits together, and share personal ratings.
 
-## نشر Railway
+## ✨ Features | المميزات
 
-1. اربط المستودع بخدمتين مستقلتين، واضبط Root Directory للخلفية `backend` وللواجهة `frontend`.
-2. أضف خدمة MySQL.
-3. في backend اضبط `DATABASE_URL=jdbc:mysql://<private-host>:3306/<database>` و`DB_USER` و`DB_PASSWORD` و`FRONTEND_ORIGIN=https://<frontend-domain>`.
-4. في frontend اضبط `VITE_API_URL=https://<backend-domain>` كمتغير بناء، ثم أعد نشر الخدمة؛ لأن Vite يُضمّن القيمة وقت البناء.
-5. لا تنسَ Generate Domain لكل من خدمتي الواجهة والباك إند.
+| الميزة | الوصف |
+|---|---|
+| 👥 الدخول بالاسم | كل عضو يكتب اسمه أول مرة، ويحفظ الموقع هوية الجهاز محليًا |
+| 🏬 إدارة المحلات | إضافة وتعديل المحلات بواسطة أي عضو |
+| 📍 خريطة تفاعلية | مشاهدة المحلات ذات الإحداثيات المحفوظة باستخدام Leaflet وOpenStreetMap |
+| 🔎 بحث وفلاتر | البحث بالاسم والمنطقة والتصنيف، والفلترة حسب حالة الزيارة |
+| 🕘 ترتيب المحلات | الأحدث إضافة يظهر أولًا |
+| ✅ حالات الزيارة | لم تتم الزيارة، تمت الزيارة، مستبعد — حالة مشتركة للمجموعة |
+| 🧾 سجل الحالة | عرض آخر شخص غيّر الحالة ووقت التغيير |
+| ⭐ التقييمات | من نجمة إلى خمس نجوم، مع ملاحظة اختيارية لكل عضو |
+| 🗑️ سلة المحذوفات | حذف ناعم (Soft Delete) وإمكانية الاسترجاع |
+| 📱 واجهة عربية | اتجاه RTL، تصميم متجاوب بألوان البيج والأوف وايت |
 
-## API
+**إضافة المحل حاليًا:** إدخال الاسم، رابط إنستقرام، المدينة، فئات الأثاث، رابط الخريطة، ورابط صورة اختياري. يمكن تحديد الموقع بالنقر على الخريطة داخل نموذج الإضافة.
 
-`POST /api/members` يدخل بالاسم ويصدر توكنًا خاصًا بالجهاز. بقية الطلبات تحتاج Header باسم `X-Member-Token`.
+## 🧠 Planned AI Feature | ميزة الذكاء الاصطناعي المخطط لها
 
-- `GET /api/stores`
-- `GET /api/stores/trash`
-- `POST /api/stores`
-- `PUT /api/stores/{id}`
-- `PUT /api/stores/{id}/status`
-- `PUT /api/stores/{id}/review`
-- `DELETE /api/stores/{id}`
-- `POST /api/stores/{id}/restore`
+The intended workflow is:
 
-## ما لم يكتمل
+1. Paste a furniture store's Instagram profile URL.
+2. Upload a screenshot of the profile or bio.
+3. Analyze the screenshot with a vision-capable AI model to extract information *actually visible in the image*.
+4. Review, correct, and complete any missing information.
+5. Save the store.
 
-- **تحليل لقطة شاشة Instagram بالذكاء الاصطناعي ورفع الصور**: غير منفذ بعد، والإدخال اليدوي متاح.
-- **فك روابط Google Maps تلقائيًا لاستخراج الإحداثيات**: غير منفذ؛ اختيار الموقع بالخريطة متاح.
-- **حماية الوصول للمجموعة**: غير منفذة. رابط خاص وحده لا يحمي الخادم أو البيانات، والدخول بالاسم ليس مصادقة آمنة.
-- **اختبارات البناء والتكامل**: لم يتم تشغيل اختبارات كاملة بعد.
-- **هيكلة Backend**: النسخة الحالية مبدئية؛ يلزم نقل منطق JawlaController إلى Service وDtoIn/DtoOut وفق أسلوب المشروع قبل التوسع.
+> ⚠️ **Not implemented yet:** Screenshot upload and AI extraction are part of the roadmap, not active features. Instagram data is **not** automatically scraped. Automatic Google Maps URL coordinate extraction is also not implemented; the manual map picker is available.
 
-> مهم: لا تنشر هذه النسخة للاستخدام الفعلي ببيانات خاصة قبل إضافة حماية الوصول والتحقق من التشغيل.
+## 🧱 Tech Stack | التقنيات
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, Vite, JavaScript, CSS |
+| Maps | React Leaflet, Leaflet, OpenStreetMap |
+| Backend | Java 21, Spring Boot 3.5, Spring Web |
+| Persistence | Spring Data JPA / Hibernate |
+| Database | MySQL |
+| Deployment | Railway + Docker |
+
+## 📂 Project Structure
+
+```text
+Jawla/
+├── frontend/
+│   ├── src/
+│   │   ├── main.jsx
+│   │   └── style.css
+│   ├── index.html
+│   ├── server.mjs
+│   ├── package.json
+│   └── Dockerfile
+├── backend/
+│   ├── src/main/java/com/jawla/
+│   │   ├── JawlaApplication.java
+│   │   ├── api/
+│   │   ├── config/
+│   │   ├── model/
+│   │   ├── repo/
+│   │   └── service/
+│   ├── src/main/resources/application.properties
+│   ├── pom.xml
+│   └── Dockerfile
+└── README.md
+```
+
+## 🚀 Run Locally | التشغيل المحلي
+
+**Requirements:** JDK 21, Maven, Node.js, npm, and a running MySQL server.
+
+**1. Clone the repository**
+
+```bash
+git clone https://github.com/Abdulaziz-Shafae/Jawla.git
+cd Jawla
+```
+
+**2. Configure and start the backend**
+
+Create the MySQL database `jawla` or allow local creation through the JDBC URL configured in `application.properties`. Set credentials for your environment.
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+Default backend: `http://localhost:8080`.
+
+Backend environment variables:
+
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | Full JDBC URL, e.g. `jdbc:mysql://localhost:3306/jawla` |
+| `DB_USER` | MySQL username |
+| `DB_PASSWORD` | MySQL password |
+| `FRONTEND_ORIGIN` | Allowed frontend origin, e.g. `http://localhost:5173` |
+| `PORT` | HTTP port; defaults to `8080` |
+
+**3. Start the frontend**
+
+In a second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open **http://localhost:5173**. The frontend uses `VITE_API_URL` when provided; otherwise it defaults to `http://localhost:8080`.
+
+## ☁️ Deployment on Railway | النشر على Railway
+
+Create **three services** in a single Railway project:
+
+| Service | Source | Root Directory |
+|---|---|---|
+| MySQL | Railway database | Managed service |
+| Backend | This GitHub repo | `/backend` |
+| Frontend | This GitHub repo | `/frontend` |
+
+Both application directories include their own Dockerfiles.
+
+**Backend variables**
+
+```env
+DATABASE_URL=jdbc:mysql://<MYSQL_PRIVATE_HOST>:3306/<MYSQL_DATABASE>
+DB_USER=<MYSQL_USER>
+DB_PASSWORD=<MYSQL_PASSWORD>
+FRONTEND_ORIGIN=https://<YOUR_FRONTEND_DOMAIN>
+```
+
+Set the values using Railway's actual MySQL connection variables and service references, rather than copying the placeholders literally.
+
+**Frontend variable**
+
+```env
+VITE_API_URL=https://<YOUR_BACKEND_DOMAIN>
+```
+
+Since Vite embeds `VITE_API_URL` at build time, the frontend must be **rebuilt/redeployed** after setting or changing this variable. Generate a public domain for both application services. The MySQL service does not require a public domain.
+
+> Railway deployment is planned/configured but **not verified live** for this repository. Build, environment, network, and security checks are still required.
+
+## 🔌 REST API
+
+`POST /api/members` accepts a member name and returns a device token. Other endpoints require the `X-Member-Token` request header.
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/members` | Join with a name |
+| GET | `/api/stores` | List active stores |
+| POST | `/api/stores` | Add a store |
+| PUT | `/api/stores/{id}` | Edit a store |
+| PUT | `/api/stores/{id}/status` | Update visit status |
+| PUT | `/api/stores/{id}/review` | Add/update your rating |
+| DELETE | `/api/stores/{id}` | Move store to trash |
+| GET | `/api/stores/trash` | List deleted stores |
+| POST | `/api/stores/{id}/restore` | Restore a deleted store |
+
+## 🎨 Design
+
+- **Primary background:** `#F8F5F0` — Off-white
+- **Secondary:** `#E8DDCE` — Light beige
+- **Accent:** `#B69B7D` — Sand
+- **Text:** `#39332E` — Dark brown
+- **Direction:** Arabic-first / RTL
+- **Approach:** Minimal, clean, mobile-friendly
+
+## 🛠️ Development Status | حالة التطوير
+
+**Core prototype available in the repository:** store CRUD, statuses, ratings, map display, local-name member entry, and soft deletion.
+
+**Next steps:** 
+
+- [ ] Add screenshot upload and AI-based information extraction
+- [ ] Parse supported Google Maps links into coordinates
+- [ ] Add proper private-group access protection
+- [ ] Refactor backend into dedicated Controller / Service / DTO / Advice layers
+- [ ] Improve validation, test coverage, error handling, and deployment readiness
+- [ ] Verify end-to-end deployment on Railway
+
+> 🔒 **Security notice:** This repository is public. A shared URL and name-only entry are not secure authentication. The current device-token approach does not restrict who may create a member. Do **not** use the prototype with sensitive or private data until group access control and production safeguards have been added. Never commit credentials or API keys.
+
+---
+
+<div align="center">
+
+Made with ☕ for furniture-shopping adventures.
+
+**جولة — كل المحلات، في مكان واحد.**
+
+</div>
