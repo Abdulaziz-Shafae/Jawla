@@ -228,3 +228,8 @@ Backend Railway variable: `OPENAI_API_KEY` (secret). Optional: `OPENAI_MODEL=gpt
 ### Google Maps URL integration
 
 Use `POST /api/maps/resolve` with JSON `{ "mapsUrl": "https://maps.app.goo.gl/..." }` and member header `X-Member-Token`. The backend extracts coordinates from known Google Maps URL patterns, following a limited number of redirects **only on allowlisted HTTPS Google domains**. Some links contain only a place ID or name; these cannot be mapped reliably without geocoding, so members should place a pin manually. No Google Maps API key is needed for this parser; JAWLH renders its interactive maps with Leaflet/OpenStreetMap.
+
+
+### Geoapify store lookup
+
+Set `GEOAPIFY_API_KEY` on the Railway **Backend** service. After OpenAI screenshot analysis, Jawlh searches Geoapify using the extracted store name and city. `POST /api/locations/search` accepts JSON `{"name":"SARAY HOME","city":"Riyadh"}` with `X-Member-Token`. The API returns possible named locations **only**, never automatically saves a pin. Select the actual branch, or use the Google Maps URL/manual pin if no accurate candidate appears. Geocoding is not a guaranteed full POI directory, so some stores won't be found. Do not put the key in frontend variables or GitHub.
